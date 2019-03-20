@@ -8,7 +8,7 @@ import {
   MatToolbarModule, MatButtonModule, MatSidenavModule,
   MatIconModule, MatListModule, MatGridListModule, MatCardModule,
   MatMenuModule, MatTableModule, MatPaginatorModule, MatSortModule,
-  MatTabsModule, MatInputModule, MatStepperModule, MatStepperIntl, MatStepLabel, MatIcon
+  MatTabsModule, MatInputModule, MatStepperModule, MatStepperIntl, MatStepLabel, MatIcon, MatSelectModule
 } from '@angular/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
@@ -112,7 +112,8 @@ const appRoutes: Routes = [
     MatInputModule,
     MatStepperModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [HttpClient, {
     provide: STEPPER_GLOBAL_OPTIONS,

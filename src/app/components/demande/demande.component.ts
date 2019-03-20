@@ -9,6 +9,7 @@ import { Personne } from 'src/app/models/Personne';
 import { Artisan } from 'src/app/models/Artisan';
 import { AdminManagerService } from 'src/app/services/admin-manager.service';
 import { Professions } from 'src/app/models/Professions';
+import { formatNumber } from '@angular/common/src/i18n/format_number';
 
 @Component({
   selector: 'app-demande',
@@ -22,15 +23,18 @@ export class DemandeComponent implements OnInit {
   demande: Demande = new Demande();
   personne: Personne = new Personne();
   artisan: Artisan = new Artisan();
+  professions: Professions[];
   isOptional = false;
   displayedColumns: string[] = ['idDemande', 'prenom', 'nom', 'adress', 'genre', 'CNI', 'statut'];
   dataSource = new MatTableDataSource<Demande>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private chambreService: ChambreManagerService, private formBuilder: FormBuilder,
+    // tslint:disable-next-line:align
     private adminservice: AdminManagerService) { }
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    this.listProfession();
     // formGroup personn
     this.personne.numeroutilisateur = '';
     this.personnFormGroup = this.formBuilder.group({
@@ -52,7 +56,7 @@ export class DemandeComponent implements OnInit {
     this.artisan.statut = false;
     this.artisan.dateinscrit = '03-12-1998';
     this.artisanFormGroup = this.formBuilder.group({
-      professions: ['', Validators.required],
+      professionid: ['', Validators.required],
       adressprof: ['', Validators.required],
       experiencepro: ['', Validators.required]
     });
@@ -65,7 +69,7 @@ export class DemandeComponent implements OnInit {
     );
   }
 
-  get dataGroup() {
+  get dataGroup(): any[] {
     const personnData = this.personnFormGroup.controls;
     const demandeData = this.demandeFormGroup.controls;
     const artisanData = this.artisanFormGroup.controls;
@@ -80,23 +84,26 @@ export class DemandeComponent implements OnInit {
     this.demande.cni = demandeData.cni.value;
     this.demande.photo = demandeData.photo.value;
     // artisan data
-    this.artisan.professions = this.getProfession( artisanData.professions.value);
+    this.artisan.professions = new Professions();
+    this.artisan.professions.idprofession = +artisanData.professionid.value;
     this.artisan.adressprof = artisanData.adressprof.value;
     this.artisan.experiencepro = artisanData.experiencepro.value;
-    return this.personnFormGroup.controls;
+    return [this.personnFormGroup.controls, this.demandeFormGroup.controls, this.artisanFormGroup.controls];
   }
   getPersonn(id: string) {
 
     return null;
   }
-  getProfession(id: number) {
-    let profession: Professions = new Professions();
-    this.adminservice.getProfession(id).subscribe(
-      p => {
-        profession = p;
+  listProfession() {
+    this.adminservice.getProfessions().subscribe(
+      listProfession => {
+        this.professions = listProfession;
       }
     );
-    return profession;
+  }
+  postDemande() {
+    this.chambreService.postDemande(this.demande);
+    this.chambreService.postArtisan(this.artisan);
   }
 
 }
