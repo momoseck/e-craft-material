@@ -1,3 +1,63 @@
-<p>
-  artisan works!
-</p>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef> Nom </th>
+      <td mat-cell *matCellDef="let element"> {{element.personne.nom}} </td>
+    </ng-container>
+
+    <!-- prenom Column -->
+    <ng-container matColumnDef="prenom">
+      <th mat-header-cell *matHeaderCellDef> Prenom </th>
+      <td mat-cell *matCellDef="let element"> {{element.personne.prenom}} </td>
+    </ng-container>
+
+    <!-- adresse Column -->
+    <ng-container matColumnDef="adresse">
+      <th mat-header-cell *matHeaderCellDef> Adresse prof </th>
+      <td mat-cell *matCellDef="let element"> {{element.adressprof}} </td>
+    </ng-container>
+     <!-- genre Column -->
+     <ng-container matColumnDef="genre">
+      <th mat-header-cell *matHeaderCellDef> Genre </th>
+      <td mat-cell *matCellDef="let element"> {{element.personne.genre}} </td>
+    </ng-container>
+
+    <!-- profession Column -->
+    <ng-container matColumnDef="profession">
+      <th mat-header-cell *matHeaderCellDef> Profession </th>
+      <td mat-cell *matCellDef="let element"> {{element.professions.professionName}} </td>
+    </ng-container>
+
+    <!-- repertoire Column -->
+    <ng-container matColumnDef="repertoire">
+      <th mat-header-cell *matHeaderCellDef> Repertoire </th>
+      <td mat-cell *matCellDef="let element"> {{element.repertoire.numerorea}} </td>
+    </ng-container>
+     <!-- departement Column -->
+     <ng-container matColumnDef="departement">
+      <th mat-header-cell *matHeaderCellDef> Departement </th>
+      <td mat-cell *matCellDef="let element"> {{element.repertoire.departement.nomdepartement}} </td>
+    </ng-container>
+
+     <!-- status Column -->
+     <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> status </th>
+      <td mat-cell *matCellDef="let element">
+        <p *ngIf="element.statut == true; then actif else inactif"></p>
+        <ng-template #actif>
+            actif
+          </ng-template>
+        <ng-template #inactif>
+            inactif
+          </ng-template>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

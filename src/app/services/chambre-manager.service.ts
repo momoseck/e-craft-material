@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Entrepriseartisanale } from 'src/app/models/Entrepriseartisanale';
 import { Gie } from 'src/app/models/Gie';
 import { Demande } from 'src/app/models/Demande';
+import { Artisan } from 'src/app/models/Artisan';
 
 @Injectable({
   providedIn: 'root'
@@ -54,17 +55,31 @@ export class ChambreManagerService {
     return this.http.put<Gie>(this.host + 'deleteGie', gie);
   }
 
-  // Crud Gie
+  // Crud Demande
   getDemande(): Observable<Demande[]> {
-    return this.http.get<Demande[]>(this.host + 'listGies');
+    return this.http.get<Demande[]>(this.host + 'listDemandes');
   }
   postDemande(demande: Demande): Observable<Demande> {
-    return this.http.post<Demande>(this.host + 'saveGie', demande);
+    return this.http.post<Demande>(this.host + 'saveDemande', demande);
   }
   updateDemande(demande: Demande): Observable<Demande> {
-    return this.http.put<Demande>(this.host + 'updateGie', demande);
+    return this.http.put<Demande>(this.host + 'updateDemande', demande);
   }
   deleteDemande(demande: Demande) {
-    return this.http.put<Demande>(this.host + 'deleteGie', demande);
+    return this.http.put<Demande>(this.host + 'deleteDemande', demande);
+  }
+
+  // Crud Demande
+  getArtisan(): Observable<Artisan[]> {
+    return this.http.get<Artisan[]>(this.host + 'listArtisans');
+  }
+  postArtisan(artisan: Artisan): Observable<Artisan> {
+    return this.http.post<Artisan>(this.host + 'saveArtisan', artisan);
+  }
+  updateArtisan(artisan: Artisan): Observable<Artisan> {
+    return this.http.put<Artisan>(this.host + 'updateArtisan', artisan);
+  }
+  deleteArtisan(artisan: Artisan) {
+    return this.http.put<Artisan>(this.host + 'deleteArtisan', artisan);
   }
 }

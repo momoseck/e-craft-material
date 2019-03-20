@@ -1,12 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { Router , Routes, RouterModule } from '@angular/router';
+import { Router, Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule,
+import {
+  MatToolbarModule, MatButtonModule, MatSidenavModule,
   MatIconModule, MatListModule, MatGridListModule, MatCardModule,
-   MatMenuModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
+  MatMenuModule, MatTableModule, MatPaginatorModule, MatSortModule,
+  MatTabsModule, MatInputModule, MatStepperModule, MatStepperIntl, MatStepLabel, MatIcon
+} from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
 import { HomeComponentComponent } from './components/home-component/home-component.component';
 import { ChambreComponentComponent } from './components/chambre-component/chambre-component.component';
@@ -39,12 +43,16 @@ import { RepertoireComponent } from './components/repertoire/repertoire.componen
 import { RoleComponent } from './components/role/role.component';
 import { SectionComponent } from './components/section/section.component';
 import { TypearticleComponent } from './components/typearticle/typearticle.component';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { ReactiveFormsModule } from '@angular/forms';
 const appRoutes: Routes = [
-  {path: '', component: HomeComponentComponent},
-  {path: 'departements', component: DepartementComponent},
-  {path: 'chambre', component: ChambreComponentComponent},
-  {path: 'admin', component: AdminComponentComponent},
-  {path: 'comptable', component: ComptableComponentComponent}
+  { path: '', component: HomeComponentComponent },
+  { path: 'departements', component: DepartementComponent },
+  { path: 'chambre', component: ChambreComponentComponent },
+  { path: 'admin', component: AdminComponentComponent },
+  { path: 'artisans', component: ArtisanComponent },
+  { path: 'demandes', component: DemandeComponent },
+  { path: 'comptable', component: ComptableComponentComponent }
 ];
 
 @NgModule({
@@ -98,9 +106,18 @@ const appRoutes: Routes = [
     MatMenuModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatIconModule
   ],
-  providers: [HttpClient],
+  providers: [HttpClient, {
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: { displayDefaultIndicatorType: false }
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,37 @@
+.example-stretched-tabs {
+  max-width: 800px;
+}
+table {
+    width: 100%;
+  }
+  .mat-form-field{
+    font-size: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .mat-label{
+    font-size: 15px;
+  }
+  input{
+    font-size: 15px;
+    padding: 0;
+    font: inherit; 
+  }
+
+  .dashboard-card {
+    }
+  
+  .more-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+  }
+  
+  .dashboard-card-content {
+    text-align: center;
+  }
+  .colo{
+    color: white;
+    background-color: rgb(50, 138, 104);
+  }

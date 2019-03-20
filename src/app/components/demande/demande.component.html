@@ -1,3 +1,156 @@
-<p>
-  demande works!
-</p>
+<div class="mat-elevation-z8">
+  <mat-horizontal-stepper linear #stepper>
+    <mat-step [stepControl]="personnFormGroup">
+      <form [formGroup]="personnFormGroup">
+        <ng-template matStepLabel>Information Personne</ng-template>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">Nom</mat-label>
+          <input matInput placeholder="votre nom" formControlName="nom" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">Prenom</mat-label>
+          <input matInput placeholder="prenom" formControlName="prenom" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">Date de Naissance</mat-label>
+          <input matInput placeholder="date naissance" formControlName="datenaissance" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">Adresse</mat-label>
+          <input matInput placeholder="adresse" formControlName="adress" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">genre</mat-label>
+          <input matInput placeholder="genre" formControlName="genre" required>
+        </mat-form-field>
+        <div>
+          <button class="colo" mat-raised-button	 matStepperNext >Suivant &nbsp;&nbsp;<mat-icon class="colo">send</mat-icon></button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="demandeFormGroup" [optional]="isOptional">
+      <form [formGroup]="demandeFormGroup">
+        <ng-template matStepLabel>Information Demande</ng-template>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">justificatif</mat-label>
+          <input matInput placeholder="justificatif" formControlName="justificatif" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">cni</mat-label>
+          <input matInput placeholder="cni" formControlName="cni" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">photo</mat-label>
+          <input matInput placeholder="photo" formControlName="photo" required>
+        </mat-form-field>
+        <div>
+          <button class="colo" mat-raised-button matStepperPrevious><mat-icon class="colo">undo</mat-icon>&nbsp;&nbsp;precedant</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button class="colo" mat-raised-button matStepperNext>Suivant&nbsp;&nbsp;<mat-icon class="colo">send</mat-icon></button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="artisanFormGroup" [optional]="isOptional">
+      <form [formGroup]="artisanFormGroup">
+        <ng-template matStepLabel>Information Artisan</ng-template>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">Professions</mat-label>
+          <input matInput placeholder="professions" formControlName="professions" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">Adresse Professionnel</mat-label>
+          <input matInput placeholder="adressprof" formControlName="adressprof" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">experience Professionnel</mat-label>
+          <input matInput placeholder="experiencepro" formControlName="experiencepro" required>
+        </mat-form-field>
+        <div>
+          <button class="colo" mat-raised-button matStepperPrevious><mat-icon class="colo">undo</mat-icon>&nbsp;&nbsp;precedant</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button class="colo" mat-raised-button matStepperNext>Suivant&nbsp;&nbsp;<mat-icon class="colo">send</mat-icon></button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+     value: {{dataGroup.nom.value}}<br>
+     value: {{personne.nom}}
+      You are now done.
+   
+      <div>
+        <button class="colo" mat-raised-button matStepperPrevious><mat-icon class="colo">undo</mat-icon>&nbsp;&nbsp;precedant</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="colo" mat-raised-button>Valider&nbsp;&nbsp;<mat-icon class="colo">done</mat-icon></button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+  <!--   <mat-form-field appearance="outline">
+            <mat-label class="mat-label">Nom</mat-label>
+            <input matInput placeholder="Placeholder">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label class="mat-label">Prenom</mat-label>
+            <input matInput placeholder="Placeholder">
+          </mat-form-field> -->
+  <table mat-table [dataSource]="dataSource">
+    <!-- genre Column -->
+    <ng-container matColumnDef="idDemande">
+      <th mat-header-cell *matHeaderCellDef> id Demande </th>
+      <td mat-cell *matCellDef="let element"> {{element.iddemande}} </td>
+    </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef> Nom </th>
+      <td mat-cell *matCellDef="let element"> {{element.personne.nom}} </td>
+    </ng-container>
+
+    <!-- prenom Column -->
+    <ng-container matColumnDef="prenom">
+      <th mat-header-cell *matHeaderCellDef> Prenom </th>
+      <td mat-cell *matCellDef="let element"> {{element.personne.prenom}} </td>
+    </ng-container>
+
+    <!-- adresse Column -->
+    <ng-container matColumnDef="adress">
+      <th mat-header-cell *matHeaderCellDef> Adresse </th>
+      <td mat-cell *matCellDef="let element"> {{element.personne.adress}} </td>
+    </ng-container>
+    <!-- profession Column -->
+    <ng-container matColumnDef="genre">
+      <th mat-header-cell *matHeaderCellDef> genre </th>
+      <td mat-cell *matCellDef="let element"> {{element.personne.genre}} </td>
+    </ng-container>
+
+    <!-- repertoire Column -->
+    <ng-container matColumnDef="CNI">
+      <th mat-header-cell *matHeaderCellDef> CNI </th>
+      <td mat-cell *matCellDef="let element"> {{element.cni}} </td>
+    </ng-container>
+    <!-- departement Column -->
+    <ng-container matColumnDef="statut">
+      <th mat-header-cell *matHeaderCellDef> Statut Demande </th>
+      <td mat-cell *matCellDef="let element"> {{element.statutdemande}} </td>
+    </ng-container>
+
+    <!-- status Column -->
+    <!-- <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> status </th>
+        <td mat-cell *matCellDef="let element">
+          <p *ngIf="element.statudemande == true; then actif else inactif"></p>
+          <ng-template #actif>
+              actif
+            </ng-template>
+          <ng-template #inactif>
+              inactif
+            </ng-template>
+        </td>
+      </ng-container> -->
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

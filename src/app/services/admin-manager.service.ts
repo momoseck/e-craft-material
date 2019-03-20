@@ -76,16 +76,16 @@ export class AdminManagerService {
   // crud section
 
   getSection(): Observable<Section[]> {
-    return this.http.get<Gouvernance[]>(this.host + 'listGouvernances');
+    return this.http.get<Section[]>(this.host + 'listSections');
   }
   postSection(section: Section): Observable<Section> {
-    return this.http.post<Section>(this.host + 'saveGouvernance', section);
+    return this.http.post<Section>(this.host + 'saveSection', section);
   }
   updateSection(section: Section): Observable<Section> {
-    return this.http.put<Section>(this.host + 'updateGouvernance', section);
+    return this.http.put<Section>(this.host + 'updateSection', section);
   }
   deleteSection(section: Section) {
-    return this.http.put<Section>(this.host + 'deleteGouvernance', section);
+    return this.http.put<Section>(this.host + 'deleteSection', section);
   }
 
   // role
@@ -107,8 +107,11 @@ export class AdminManagerService {
     return this.http.put<Compte>(this.host + 'deleteCompte', compte);
   }
   // profession
-  getProfession(): Observable<Professions[]> {
+  getProfessions(): Observable<Professions[]> {
     return this.http.get<Professions[]>(this.host + 'listProfessions');
+  }
+  getProfession(id: number): Observable<Professions> {
+    return this.http.get<Professions>(this.host + 'listProfessions/' + id);
   }
 
   // crud agent chambre des metier

@@ -11,14 +11,14 @@ import { Publication } from 'src/app/models/Publication';
 
 export class Artisan {
     public numeroutilisateur: string;
-    public gie: Gie;
+    public gie?: Gie;
     public personne: Personne;
     public professions: Professions;
     public repertoire: Repertoire;
     public adressprof: string;
     public experiencepro: string;
     public dateinscrit: string;
-    public status: boolean;
+    public statut: boolean;
     public artilces?: Article[];
     public compagnones?: Compagnon[];
     public factures?: Facture[];

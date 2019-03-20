@@ -4,6 +4,6 @@ import { Artisan } from 'src/app/models/Artisan';
 export class Professions {
    public  idprofession: number;
    public section: Section;
-   public professionsName: string;
+   public professionName: string;
    public artisan?: Artisan[];
 }
