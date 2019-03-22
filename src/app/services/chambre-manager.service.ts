@@ -6,6 +6,10 @@ import { Entrepriseartisanale } from 'src/app/models/Entrepriseartisanale';
 import { Gie } from 'src/app/models/Gie';
 import { Demande } from 'src/app/models/Demande';
 import { Artisan } from 'src/app/models/Artisan';
+import { Personne } from 'src/app/models/Personne';
+import { Repertoire } from 'src/app/models/Repertoire';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -13,73 +17,104 @@ import { Artisan } from 'src/app/models/Artisan';
 export class ChambreManagerService {
   // tslint:disable-next-line:ban-types
   host: String = 'http://localhost:8080/agent/';
-  constructor(private http: HttpClient) { }
+  header: any;
+  constructor(private http: HttpClient , private authenticationservice: AuthenticationService) {
+    // tslint:disable-next-line:object-literal-key-quotes
+    this.header = new HttpHeaders({ 'authorization': this.authenticationservice.getToken() });
+  }
   // Crud paiement
   getRegions(): Observable<Paiement[]> {
-    return this.http.get<Paiement[]>(this.host + 'listPaiements');
+    return this.http.get<Paiement[]>(this.host + 'listPaiements' , { headers: this.header });
   }
   postRegion(paiement: Paiement): Observable<Paiement> {
-    return this.http.post<Paiement>(this.host + 'savePaiement', Paiement);
+    return this.http.post<Paiement>(this.host + 'savePaiement', Paiement , { headers: this.header });
   }
   updateRegion(paiement: Paiement): Observable<Paiement> {
-    return this.http.put<Paiement>(this.host + 'updatePaiement', Paiement);
+    return this.http.put<Paiement>(this.host + 'updatePaiement', Paiement , { headers: this.header });
   }
   deleteRegion(paiement: Paiement) {
-    return this.http.put<Paiement>(this.host + 'deletePaiement', Paiement);
+    return this.http.put<Paiement>(this.host + 'deletePaiement', Paiement , { headers: this.header });
   }
   // Crud Entrepriseartisanale
   getEntrepriseartisanale(): Observable<Entrepriseartisanale[]> {
-    return this.http.get<Entrepriseartisanale[]>(this.host + 'listEntreprise');
+    return this.http.get<Entrepriseartisanale[]>(this.host + 'listEntreprise' , { headers: this.header });
   }
   postEntrepriseartisanale(entrepriseartisanale: Entrepriseartisanale): Observable<Entrepriseartisanale> {
-    return this.http.post<Entrepriseartisanale>(this.host + 'saveEntreprise', entrepriseartisanale);
+    return this.http.post<Entrepriseartisanale>(this.host + 'saveEntreprise', entrepriseartisanale , { headers: this.header });
   }
   updateEntrepriseartisanale(entrepriseartisanale: Entrepriseartisanale): Observable<Entrepriseartisanale> {
-    return this.http.put<Entrepriseartisanale>(this.host + 'updateEntreprise', entrepriseartisanale);
+    return this.http.put<Entrepriseartisanale>(this.host + 'updateEntreprise', entrepriseartisanale , { headers: this.header });
   }
   deleteEntrepriseartisanale(entrepriseartisanale: Entrepriseartisanale) {
-    return this.http.put<Entrepriseartisanale>(this.host + 'deleteEntreprise', entrepriseartisanale);
+    return this.http.put<Entrepriseartisanale>(this.host + 'deleteEntreprise', entrepriseartisanale , { headers: this.header });
   }
 
   // Crud Gie
   getGie(): Observable<Gie[]> {
-    return this.http.get<Gie[]>(this.host + 'listGies');
+    return this.http.get<Gie[]>(this.host + 'listGies' , { headers: this.header });
   }
   postGie(gie: Gie): Observable<Gie> {
-    return this.http.post<Gie>(this.host + 'saveGie', gie);
+    return this.http.post<Gie>(this.host + 'saveGie', gie , { headers: this.header });
   }
   updateGie(gie: Gie): Observable<Gie> {
-    return this.http.put<Gie>(this.host + 'updateGie', gie);
+    return this.http.put<Gie>(this.host + 'updateGie', gie , { headers: this.header });
   }
   deleteGie(gie: Gie) {
-    return this.http.put<Gie>(this.host + 'deleteGie', gie);
+    return this.http.put<Gie>(this.host + 'deleteGie', gie , { headers: this.header });
   }
 
   // Crud Demande
   getDemande(): Observable<Demande[]> {
-    return this.http.get<Demande[]>(this.host + 'listDemandes');
+    return this.http.get<Demande[]>(this.host + 'listDemandes' , { headers: this.header });
   }
   postDemande(demande: Demande): Observable<Demande> {
-    return this.http.post<Demande>(this.host + 'saveDemande', demande);
+    return this.http.post<Demande>(this.host + 'saveDemande', demande , { headers: this.header });
   }
   updateDemande(demande: Demande): Observable<Demande> {
-    return this.http.put<Demande>(this.host + 'updateDemande', demande);
+    return this.http.put<Demande>(this.host + 'updateDemande', demande , { headers: this.header });
   }
   deleteDemande(demande: Demande) {
-    return this.http.put<Demande>(this.host + 'deleteDemande', demande);
+    return this.http.put<Demande>(this.host + 'deleteDemande', demande , { headers: this.header });
   }
 
-  // Crud Demande
+  // Crud Artisan
   getArtisan(): Observable<Artisan[]> {
-    return this.http.get<Artisan[]>(this.host + 'listArtisans');
+    return this.http.get<Artisan[]>(this.host + 'listArtisans' , { headers: this.header });
   }
   postArtisan(artisan: Artisan): Observable<Artisan> {
-    return this.http.post<Artisan>(this.host + 'saveArtisan', artisan);
+    return this.http.post<Artisan>(this.host + 'saveArtisan', artisan , { headers: this.header });
   }
   updateArtisan(artisan: Artisan): Observable<Artisan> {
-    return this.http.put<Artisan>(this.host + 'updateArtisan', artisan);
+    return this.http.put<Artisan>(this.host + 'updateArtisan', artisan , { headers: this.header });
   }
   deleteArtisan(artisan: Artisan) {
-    return this.http.put<Artisan>(this.host + 'deleteArtisan', artisan);
+    return this.http.put<Artisan>(this.host + 'deleteArtisan', artisan , { headers: this.header });
+  }
+
+  // Crud Personne
+  getPersonnes(): Observable<Personne[]> {
+    return this.http.get<Personne[]>(this.host + 'listPersonnes' , { headers: this.header });
+  }
+  postPersonne(personne: Personne): Observable<Personne> {
+    return this.http.post<Personne>(this.host + 'savtPersonne', personne , { headers: this.header });
+  }
+  updatePersonne(personne: Personne): Observable<Personne> {
+    return this.http.put<Personne>(this.host + 'updatePersonne', personne , { headers: this.header });
+  }
+  deletePersonne(personne: Personne) {
+    return this.http.put<Personne>(this.host + 'deletePersonne', personne , { headers: this.header });
+  }
+  // Crud Repertoire
+  getRepertoires(): Observable<Repertoire[]> {
+    return this.http.get<Repertoire[]>(this.host + 'listRepertoires' , { headers: this.header });
+  }
+  postRepertoire(repertoire: Repertoire): Observable<Repertoire> {
+    return this.http.post<Repertoire>(this.host + 'savtRepertoire', repertoire , { headers: this.header });
+  }
+  updateRepertoire(repertoire: Repertoire): Observable<Repertoire> {
+    return this.http.put<Repertoire>(this.host + 'updateRepertoire', repertoire , { headers: this.header });
+  }
+  deleteRepertoire(repertoire: Repertoire) {
+    return this.http.put<Repertoire>(this.host + 'deleteRepertoire', repertoire , { headers: this.header });
   }
 }

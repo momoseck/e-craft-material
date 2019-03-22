@@ -5,5 +5,5 @@ export class Gouvernance {
    public idgouvernance: number;
    public region: Region;
    public nomgouvernance: string;
-   public chambremetier?: Chambremetier[];
+   public chambremetiers: Chambremetier[];
 }

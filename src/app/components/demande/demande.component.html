@@ -24,13 +24,21 @@
           <input matInput placeholder="genre" formControlName="genre" required>
         </mat-form-field>
         <div>
-          <button class="colo" mat-raised-button	 matStepperNext >Suivant &nbsp;&nbsp;<mat-icon class="colo">send</mat-icon></button>
+          <button class="colo" mat-raised-button matStepperNext>Suivant &nbsp;&nbsp;
+            <mat-icon class="colo">send</mat-icon>
+          </button>
         </div>
       </form>
     </mat-step>
     <mat-step [stepControl]="demandeFormGroup" [optional]="isOptional">
       <form [formGroup]="demandeFormGroup">
         <ng-template matStepLabel>Information Demande</ng-template>
+        <mat-form-field appearance="outline">
+          <mat-label class="mat-label">departement</mat-label>
+           <mat-select formControlName="departementid" required>
+            <mat-option *ngFor="let d of departements" [value]="d.iddepartement">{{d.nomdepartement}}</mat-option>
+          </mat-select> 
+        </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label class="mat-label">justificatif</mat-label>
           <input matInput placeholder="justificatif" formControlName="justificatif" required>
@@ -44,9 +52,12 @@
           <input matInput placeholder="photo" formControlName="photo" required>
         </mat-form-field>
         <div>
-          <button class="colo" mat-raised-button matStepperPrevious><mat-icon class="colo">undo</mat-icon>&nbsp;&nbsp;precedant</button>
+          <button class="colo" mat-raised-button matStepperPrevious>
+            <mat-icon class="colo">undo</mat-icon>&nbsp;&nbsp;precedant</button>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <button class="colo" mat-raised-button matStepperNext>Suivant&nbsp;&nbsp;<mat-icon class="colo">send</mat-icon></button>
+          <button class="colo" mat-raised-button matStepperNext>Suivant&nbsp;&nbsp;
+            <mat-icon class="colo">send</mat-icon>
+          </button>
         </div>
       </form>
     </mat-step>
@@ -57,9 +68,9 @@
         <mat-form-field appearance="outline">
           <mat-label class="mat-label">Professions</mat-label>
 
-           <mat-select formControlName="professionid" required>
+          <mat-select formControlName="professionid" required>
             <mat-option *ngFor="let p of professions" [value]="p.idprofession">{{p.professionName}}</mat-option>
-          </mat-select> 
+          </mat-select>
           <!-- <input matInput placeholder="professions" formControlName="professionid" required> -->
         </mat-form-field>
         <mat-form-field appearance="outline">
@@ -71,24 +82,29 @@
           <input matInput placeholder="experiencepro" formControlName="experiencepro" required>
         </mat-form-field>
         <div>
-          <button class="colo" mat-raised-button matStepperPrevious><mat-icon class="colo">undo</mat-icon>&nbsp;&nbsp;precedant</button>
+          <button class="colo" mat-raised-button matStepperPrevious>
+            <mat-icon class="colo">undo</mat-icon>&nbsp;&nbsp;precedant</button>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <button class="colo" mat-raised-button matStepperNext>Suivant&nbsp;&nbsp;<mat-icon class="colo">send</mat-icon></button>
+          <button class="colo" mat-raised-button matStepperNext (click)="postDemande()">Suivant&nbsp;&nbsp;
+            <mat-icon class="colo">send</mat-icon>
+          </button>
         </div>
       </form>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
-     value: {{dataGroup[0].nom.value}}<br>
-     value: {{personne.nom}}
-     value profesion:{{dataGroup[2].professionid.value}}
-     value: artisan {{artisan.professions.idprofession}}
+      value: {{personnFormGroup.controls.nom.value}}
+      <br> value: {{personne.nom}} value profesion:{{artisanFormGroup.controls.professionid.value}}
+       value: artisan {{artisan.professions.idprofession}}
       You are now done.
-   
+
       <div>
-        <button class="colo" mat-raised-button matStepperPrevious><mat-icon class="colo">undo</mat-icon>&nbsp;&nbsp;precedant</button>
+        <button class="colo" mat-raised-button matStepperPrevious>
+          <mat-icon class="colo">undo</mat-icon>&nbsp;&nbsp;precedant</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="colo" mat-raised-button>Valider&nbsp;&nbsp;<mat-icon class="colo">done</mat-icon></button>
+        <button class="colo" mat-raised-button>Valider&nbsp;&nbsp;
+          <mat-icon class="colo">done</mat-icon>
+        </button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
@@ -109,7 +125,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef> Nom </th>
-      <td mat-cell *matCellDef="let element"> {{element.personne.nom}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.personne.nom}}</td>
     </ng-container>
 
     <!-- prenom Column -->

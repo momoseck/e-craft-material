@@ -45,6 +45,7 @@ import { SectionComponent } from './components/section/section.component';
 import { TypearticleComponent } from './components/typearticle/typearticle.component';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
 const appRoutes: Routes = [
   { path: '', component: HomeComponentComponent },
   { path: 'departements', component: DepartementComponent },
@@ -52,6 +53,7 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdminComponentComponent },
   { path: 'artisans', component: ArtisanComponent },
   { path: 'demandes', component: DemandeComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'comptable', component: ComptableComponentComponent }
 ];
 
@@ -88,7 +90,8 @@ const appRoutes: Routes = [
     RepertoireComponent,
     RoleComponent,
     SectionComponent,
-    TypearticleComponent
+    TypearticleComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

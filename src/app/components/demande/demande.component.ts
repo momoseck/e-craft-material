@@ -10,6 +10,9 @@ import { Artisan } from 'src/app/models/Artisan';
 import { AdminManagerService } from 'src/app/services/admin-manager.service';
 import { Professions } from 'src/app/models/Professions';
 import { formatNumber } from '@angular/common/src/i18n/format_number';
+import { Repertoire } from 'src/app/models/Repertoire';
+import { Region } from 'src/app/models/Region';
+import { Departement } from 'src/app/models/Departement';
 
 @Component({
   selector: 'app-demande',
@@ -23,10 +26,15 @@ export class DemandeComponent implements OnInit {
   demande: Demande = new Demande();
   personne: Personne = new Personne();
   artisan: Artisan = new Artisan();
+
+  departement: Departement;
+  repertoire: Repertoire = new Repertoire();
   professions: Professions[];
+  departements: Departement[];
   isOptional = false;
   displayedColumns: string[] = ['idDemande', 'prenom', 'nom', 'adress', 'genre', 'CNI', 'statut'];
   dataSource = new MatTableDataSource<Demande>();
+  personnes: Personne[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private chambreService: ChambreManagerService, private formBuilder: FormBuilder,
     // tslint:disable-next-line:align
@@ -34,9 +42,15 @@ export class DemandeComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
-    this.listProfession();
+    this.chambreService.getDemande().subscribe(
+      datademande => {
+        console.log(datademande);
+        this.dataSource.data = datademande;
+      }
+    );
+    this.artisan.professions = new Professions();
     // formGroup personn
-    this.personne.numeroutilisateur = '';
+    this.personne.numeroutilisateur = '123';
     this.personnFormGroup = this.formBuilder.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
@@ -48,6 +62,7 @@ export class DemandeComponent implements OnInit {
     this.demande.iddemande = 1;
     this.demande.statudemande = 0;
     this.demandeFormGroup = this.formBuilder.group({
+      departementid: ['', Validators.required],
       justificatif: ['', Validators.required],
       cni: ['', Validators.required],
       photo: ['', Validators.required]
@@ -60,16 +75,25 @@ export class DemandeComponent implements OnInit {
       adressprof: ['', Validators.required],
       experiencepro: ['', Validators.required]
     });
-    //
-    this.chambreService.getDemande().subscribe(
-      datademande => {
-        this.dataSource.data = datademande;
-        console.log(this.dataSource.data);
+
+    this.adminservice.getProfessions().subscribe(
+      listProfession => {
+        this.professions = listProfession;
+        console.log('2222222222' + this.professions);
       }
     );
+
+    this.adminservice.getDepartements().subscribe(
+      listDepartements => {
+        this.departements = listDepartements;
+        console.log(' 3333333' + this.departements);
+      }
+    );
+
   }
 
-  get dataGroup(): any[] {
+  dataGroup() {
+    console.log('get->>>>');
     const personnData = this.personnFormGroup.controls;
     const demandeData = this.demandeFormGroup.controls;
     const artisanData = this.artisanFormGroup.controls;
@@ -83,27 +107,85 @@ export class DemandeComponent implements OnInit {
     this.demande.justificatif = demandeData.justificatif.value;
     this.demande.cni = demandeData.cni.value;
     this.demande.photo = demandeData.photo.value;
-    // artisan data
+    // Data mapping
     this.artisan.professions = new Professions();
+    //
+    //
+    this.artisan.personne = this.personne;
     this.artisan.professions.idprofession = +artisanData.professionid.value;
+    this.artisan.repertoire = this.repertoire;
+    this.repertoire.departement = this.departement;
+    this.departement = this.getDepartement(+demandeData.departementid.value);
+    this.demande.chambremetier = this.departement.region.gouvernances[0].chambremetiers[0];
+    // artisan data
     this.artisan.adressprof = artisanData.adressprof.value;
     this.artisan.experiencepro = artisanData.experiencepro.value;
-    return [this.personnFormGroup.controls, this.demandeFormGroup.controls, this.artisanFormGroup.controls];
   }
   getPersonn(id: string) {
 
     return null;
   }
-  listProfession() {
-    this.adminservice.getProfessions().subscribe(
-      listProfession => {
-        this.professions = listProfession;
+  // listProfession() {
+  //   this.adminservice.getProfessions().subscribe(
+  //     listProfession => {
+  //       this.professions = listProfession;
+  //     }
+  //   );
+  // }
+  // listDepartements() {
+  //   this.adminservice.getDepartements().subscribe(
+  //     listDepartements => {
+  //       this.departements = listDepartements;
+  //     }
+  //   );
+  // }
+  getDepartement(id: number): Departement {
+    if (this.departements != null) {
+      const deparray = this.departements;
+      for (const dep of deparray) {
+        if (dep.iddepartement === id) {
+          console.log('thisss :' + dep.iddepartement);
+          console.log('thisss :' + dep.nomdepartement);
+          return dep;
+        }
       }
-    );
+    }
+    return null;
   }
   postDemande() {
-    this.chambreService.postDemande(this.demande);
-    this.chambreService.postArtisan(this.artisan);
+    this.dataGroup();
+    console.log(this.demande.chambremetier.nomchambre);
+    // this.artisan.professions.idprofession = +this.artisanFormGroup.controls.professionid.value;
+    // this.personne.nom = this.personnFormGroup.controls.nom.value;
+    /*this.chambreService.postRepertoire(this.repertoire).subscribe(
+      rep => {
+        console.log(rep);
+      }, err => {
+        console.log(err);
+      }
+    );*/
+    this.chambreService.postPersonne(this.personne).subscribe(
+      rep => {
+        console.log(rep);
+      }, err => {
+        console.log(err);
+      }
+    );
+    /*this.chambreService.postArtisan(this.artisan).subscribe(
+      rep => {
+        console.log(rep);
+      }, err => {
+        console.log(err);
+      }
+    );
+    this.chambreService.postDemande(this.demande).subscribe(
+      rep => {
+        console.log(rep);
+      }, err => {
+        console.log(err);
+      }
+    );*/
+    //this.dataSource.data.pop(this.demande);
   }
 
 }

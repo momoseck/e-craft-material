@@ -5,5 +5,4 @@ export class Departement {
   public iddepartement: number;
   public region: Region;
   public nomdepartement: string;
-  public repertoires?: Repertoire[];
 }
