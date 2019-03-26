@@ -1,0 +1,71 @@
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  .tool{
+
+padding-bottom: 5px;
+
+  }
+
+  table {
+    width: 100%;
+  }
+  th{
+    padding: 0%;
+    color: white;
+    max-height:10px;
+    background-color: rgb(64, 175, 132);
+  }
+  
+  .example-container {
+    height: 400px;
+    overflow: auto;
+  }
+  
+  .font{
+      font-size: 12px;
+      height: 30px;
+      text-align: center;
+      margin-top: 10px;
+  }
+  .taill{
+    background-color: white;
+       
+      margin-top: 5px;
+      border-style: outset;
+  }
+  mat-toolbar{
+    margin-top: 35px;
+  }
+  .border{
+    border-style: outset;
+   background-color: rgb(181, 192, 188);
+  }
+  mat-cell{
+    max-height: 15px;
+    align-items: stretch;
+
+  }
+  button{
+    margin:4px;
+    background-color:rgb(221, 218, 218);
+  }
+  .mat-row.hovered {
+    background: #eee;
+  }
+  
+  .mat-row.selected {
+    background: #999;
+  }
+  .warning{
+    color: rgb(218, 206, 44);
+    border-color: rgb(218, 206, 44);
+  }
+  .danger{
+    color: rgb(192, 8, 8);
+    border-color: rgb(192, 8, 8);
+  }
+  .info{
+    color: rgb(29, 191, 240);
+    border-color:rgb(29, 191, 240);
+  }

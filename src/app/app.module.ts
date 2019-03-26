@@ -8,7 +8,7 @@ import {
   MatToolbarModule, MatButtonModule, MatSidenavModule,
   MatIconModule, MatListModule, MatGridListModule, MatCardModule,
   MatMenuModule, MatTableModule, MatPaginatorModule, MatSortModule,
-  MatTabsModule, MatInputModule, MatStepperModule, MatStepperIntl, MatStepLabel, MatIcon, MatSelectModule
+  MatTabsModule, MatInputModule, MatStepperModule, MatStepperIntl, MatStepLabel, MatIcon, MatSelectModule, MatButtonToggle, MatButtonToggleModule, MatDialogModule
 } from '@angular/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
@@ -46,6 +46,9 @@ import { TypearticleComponent } from './components/typearticle/typearticle.compo
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
+import { TraitementDemandeComponent, ConfirmationDialogComponent } from './components/traitement-demande/traitement-demande.component';
+import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 const appRoutes: Routes = [
   { path: '', component: HomeComponentComponent },
   { path: 'departements', component: DepartementComponent },
@@ -54,6 +57,7 @@ const appRoutes: Routes = [
   { path: 'artisans', component: ArtisanComponent },
   { path: 'demandes', component: DemandeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'traitement-demande', component: TraitementDemandeComponent },
   { path: 'comptable', component: ComptableComponentComponent }
 ];
 
@@ -91,7 +95,9 @@ const appRoutes: Routes = [
     RoleComponent,
     SectionComponent,
     TypearticleComponent,
-    LoginComponent
+    LoginComponent,
+    TraitementDemandeComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -116,12 +122,19 @@ const appRoutes: Routes = [
     MatStepperModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonToggleModule,
+    CommonModule,
+    MatDialogModule
   ],
   providers: [HttpClient, {
     provide: STEPPER_GLOBAL_OPTIONS,
     useValue: { displayDefaultIndicatorType: false }
   }],
+  entryComponents: [
+    ConfirmationDialogComponent
+  ],
   bootstrap: [AppComponent]
+  // , schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }

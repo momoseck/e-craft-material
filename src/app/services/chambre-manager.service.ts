@@ -67,6 +67,12 @@ export class ChambreManagerService {
   getDemande(): Observable<Demande[]> {
     return this.http.get<Demande[]>(this.host + 'listDemandes' , { headers: this.header });
   }
+  getDemandeCh(): Observable<Demande[]> {
+    return this.http.get<Demande[]>(this.host + 'listDemandeCh' , { headers: this.header });
+  }
+  getDemandeGov(): Observable<Demande[]> {
+    return this.http.get<Demande[]>(this.host + 'listDemandeGov' , { headers: this.header });
+  }
   postDemande(demande: Demande): Observable<Demande> {
     return this.http.post<Demande>(this.host + 'saveDemande', demande , { headers: this.header });
   }
@@ -96,7 +102,7 @@ export class ChambreManagerService {
     return this.http.get<Personne[]>(this.host + 'listPersonnes' , { headers: this.header });
   }
   postPersonne(personne: Personne): Observable<Personne> {
-    return this.http.post<Personne>(this.host + 'savtPersonne', personne , { headers: this.header });
+    return this.http.post<Personne>(this.host + 'savePersonne', personne , { headers: this.header });
   }
   updatePersonne(personne: Personne): Observable<Personne> {
     return this.http.put<Personne>(this.host + 'updatePersonne', personne , { headers: this.header });
@@ -109,7 +115,7 @@ export class ChambreManagerService {
     return this.http.get<Repertoire[]>(this.host + 'listRepertoires' , { headers: this.header });
   }
   postRepertoire(repertoire: Repertoire): Observable<Repertoire> {
-    return this.http.post<Repertoire>(this.host + 'savtRepertoire', repertoire , { headers: this.header });
+    return this.http.post<Repertoire>(this.host + 'saveRepertoire', repertoire , { headers: this.header });
   }
   updateRepertoire(repertoire: Repertoire): Observable<Repertoire> {
     return this.http.put<Repertoire>(this.host + 'updateRepertoire', repertoire , { headers: this.header });

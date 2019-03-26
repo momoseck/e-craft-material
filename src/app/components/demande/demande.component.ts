@@ -13,6 +13,7 @@ import { formatNumber } from '@angular/common/src/i18n/format_number';
 import { Repertoire } from 'src/app/models/Repertoire';
 import { Region } from 'src/app/models/Region';
 import { Departement } from 'src/app/models/Departement';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-demande',
@@ -24,39 +25,29 @@ export class DemandeComponent implements OnInit {
   personnFormGroup: FormGroup;
   artisanFormGroup: FormGroup;
   demande: Demande = new Demande();
-  personne: Personne = new Personne();
-  artisan: Artisan = new Artisan();
 
   departement: Departement;
-  repertoire: Repertoire = new Repertoire();
   professions: Professions[];
   departements: Departement[];
   isOptional = false;
   displayedColumns: string[] = ['idDemande', 'prenom', 'nom', 'adress', 'genre', 'CNI', 'statut'];
   dataSource = new MatTableDataSource<Demande>();
-  personnes: Personne[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private chambreService: ChambreManagerService, private formBuilder: FormBuilder,
     // tslint:disable-next-line:align
     private adminservice: AdminManagerService) { }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.chambreService.getDemande().subscribe(
-      datademande => {
-        console.log(datademande);
-        this.dataSource.data = datademande;
-      }
-    );
-    this.artisan.professions = new Professions();
+    this.getDemandes();
     // formGroup personn
-    this.personne.numeroutilisateur = '123';
     this.personnFormGroup = this.formBuilder.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       datenaissance: ['', Validators.required],
-      adress: ['', Validators.required],
-      genre: ['', Validators.required]
+      adresse: ['', Validators.required],
+      genre: ['', Validators.required],
+      email: ['', Validators.required],
+      telephone: ['', Validators.required]
     });
     // formGroup demande
     this.demande.iddemande = 1;
@@ -68,8 +59,9 @@ export class DemandeComponent implements OnInit {
       photo: ['', Validators.required]
     });
     // formGroup artisan
-    this.artisan.statut = false;
-    this.artisan.dateinscrit = '03-12-1998';
+
+    // const datePipe = new DatePipe('en-US');
+    // this.artisan.dateinscrit = datePipe.transform('01/04/2017', 'dd/MM/yyyy');
     this.artisanFormGroup = this.formBuilder.group({
       professionid: ['', Validators.required],
       adressprof: ['', Validators.required],
@@ -79,73 +71,60 @@ export class DemandeComponent implements OnInit {
     this.adminservice.getProfessions().subscribe(
       listProfession => {
         this.professions = listProfession;
-        console.log('2222222222' + this.professions);
       }
     );
 
     this.adminservice.getDepartements().subscribe(
       listDepartements => {
         this.departements = listDepartements;
-        console.log(' 3333333' + this.departements);
       }
     );
 
   }
+  get dem() {
+    console.log('get get get ====>');
+    return this.getDemandes();
+  }
 
+  getDemandes() {
+    this.dataSource.paginator = this.paginator;
+    this.chambreService.getDemande().subscribe(
+      datademande => {
+        this.dataSource.data = datademande;
+      }
+    );
+  }
   dataGroup() {
-    console.log('get->>>>');
     const personnData = this.personnFormGroup.controls;
     const demandeData = this.demandeFormGroup.controls;
     const artisanData = this.artisanFormGroup.controls;
     // persone data
-    this.personne.nom = personnData.nom.value;
-    this.personne.prenom = personnData.prenom.value;
-    this.personne.datenaissance = personnData.datenaissance.value;
-    this.personne.adress = personnData.adress.value;
-    this.personne.genre = personnData.genre.value;
+    this.demande.nom = personnData.nom.value;
+    this.demande.prenom = personnData.prenom.value;
+    this.demande.datenaissance = personnData.datenaissance.value;
+    this.demande.adresse = personnData.adresse.value;
+    this.demande.genre = personnData.genre.value;
+    this.demande.email = personnData.email.value;
+    this.demande.telephone = personnData.telephone.value;
     // demande data
     this.demande.justificatif = demandeData.justificatif.value;
     this.demande.cni = demandeData.cni.value;
     this.demande.photo = demandeData.photo.value;
+
     // Data mapping
-    this.artisan.professions = new Professions();
-    //
-    //
-    this.artisan.personne = this.personne;
-    this.artisan.professions.idprofession = +artisanData.professionid.value;
-    this.artisan.repertoire = this.repertoire;
-    this.repertoire.departement = this.departement;
     this.departement = this.getDepartement(+demandeData.departementid.value);
     this.demande.chambremetier = this.departement.region.gouvernances[0].chambremetiers[0];
     // artisan data
-    this.artisan.adressprof = artisanData.adressprof.value;
-    this.artisan.experiencepro = artisanData.experiencepro.value;
+    this.demande.adressprof = artisanData.experiencepro.value;
+    this.demande.expreriencepro = artisanData.experiencepro.value;
+    this.demande.profession = artisanData.professionid.value;
+    this.demande.dateinscrit = '02-08-2019';
   }
-  getPersonn(id: string) {
-
-    return null;
-  }
-  // listProfession() {
-  //   this.adminservice.getProfessions().subscribe(
-  //     listProfession => {
-  //       this.professions = listProfession;
-  //     }
-  //   );
-  // }
-  // listDepartements() {
-  //   this.adminservice.getDepartements().subscribe(
-  //     listDepartements => {
-  //       this.departements = listDepartements;
-  //     }
-  //   );
-  // }
   getDepartement(id: number): Departement {
     if (this.departements != null) {
       const deparray = this.departements;
       for (const dep of deparray) {
         if (dep.iddepartement === id) {
-          console.log('thisss :' + dep.iddepartement);
-          console.log('thisss :' + dep.nomdepartement);
           return dep;
         }
       }
@@ -154,38 +133,16 @@ export class DemandeComponent implements OnInit {
   }
   postDemande() {
     this.dataGroup();
-    console.log(this.demande.chambremetier.nomchambre);
-    // this.artisan.professions.idprofession = +this.artisanFormGroup.controls.professionid.value;
-    // this.personne.nom = this.personnFormGroup.controls.nom.value;
-    /*this.chambreService.postRepertoire(this.repertoire).subscribe(
-      rep => {
-        console.log(rep);
-      }, err => {
-        console.log(err);
-      }
-    );*/
-    this.chambreService.postPersonne(this.personne).subscribe(
-      rep => {
-        console.log(rep);
-      }, err => {
-        console.log(err);
-      }
-    );
-    /*this.chambreService.postArtisan(this.artisan).subscribe(
-      rep => {
-        console.log(rep);
-      }, err => {
-        console.log(err);
-      }
-    );
     this.chambreService.postDemande(this.demande).subscribe(
       rep => {
         console.log(rep);
+        this.getDemandes();
       }, err => {
         console.log(err);
       }
-    );*/
-    //this.dataSource.data.pop(this.demande);
+    );
+
+    // this.dataSource.data.pop(this.demande);
   }
 
 }

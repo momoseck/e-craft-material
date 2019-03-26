@@ -12,6 +12,7 @@
       <a mat-list-item routerLink="/departements">departements</a>
       <a mat-list-item routerLink="/artisans">Artisan</a>
       <a mat-list-item routerLink="/demandes">demandes</a>
+      <a mat-list-item routerLink="/traitement-demande">traitement</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -25,6 +26,11 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>e-craft-material</span>
+     <div class="right">
+       <button mat-button>Settings</button>
+       <button mat-button>Help</button>
+     </div>
+     
     </mat-toolbar>
     <!-- Add Content Here -->
     <router-outlet></router-outlet>
