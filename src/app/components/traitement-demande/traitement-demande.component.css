@@ -11,10 +11,8 @@ padding-bottom: 5px;
     width: 100%;
   }
   th{
-    padding: 0%;
     color: white;
-    max-height:10px;
-    background-color: rgb(64, 175, 132);
+    background-color: rgb(66, 161, 133);
   }
   
   .example-container {
@@ -58,14 +56,11 @@ padding-bottom: 5px;
     background: #999;
   }
   .warning{
-    color: rgb(218, 206, 44);
-    border-color: rgb(218, 206, 44);
+    color: rgb(252, 235, 6);
   }
   .danger{
-    color: rgb(192, 8, 8);
-    border-color: rgb(192, 8, 8);
+    color: rgb(245, 4, 4);
   }
   .info{
-    color: rgb(29, 191, 240);
-    border-color:rgb(29, 191, 240);
+    color: rgb(6, 193, 250);
   }

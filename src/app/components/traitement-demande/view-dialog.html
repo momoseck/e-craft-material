@@ -1,10 +1,39 @@
-<mat-dialog-content>
-    <p>
-        Do you want to see the snackbar?
-        {{data.iddemande}}
-    </p>
+<div>
+    <h2 mat-dialog-title>Traitement demande</h2>
+</div>
+<mat-dialog-content class="mat-typography">
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{data.prenom}}-{{data.nom}}</mat-card-title>
+            <mat-card-subtitle>né(e) le {{data.datenaissance}} á {{data.adresse}}</mat-card-subtitle>
+        </mat-card-header>
+        <p>
+            Email: {{data.email}} - Telephone: {{data.telephone}}
+        </p>
+        <p>
+            Adresse professionnelle: {{data.adressprof}} - Annee d'experiance: {{data.expreriencepro}}
+        </p>
+        <p>
+            profession: {{profession?.professionName}} - Annee d'experiance: {{data.dateinscrit}}
+        </p>
+        <p>
+            CNI: {{data.cni}} - justificatif: {{data.justificatif}}
+        </p>
+        <mat-card-content>
+        </mat-card-content>
+        <mat-card-footer>
+        </mat-card-footer>
+    </mat-card>
 </mat-dialog-content>
-<mat-dialog-actions>
-    <button mat-button (click)="onYesClick()" tabindex="1">YES</button>
-    <button mat-button mat-dialog-close tabindex="-1">NO</button>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Fermer</button>
+    <p *ngIf="data.statutdemande == 0; then chambre else gouvernance"></p>
+    <ng-template #chambre>
+        <button mat-button (click)="validationChambre(data)" [mat-dialog-close]="true">Valider</button>
+    </ng-template>
+    <ng-template #gouvernance>
+        <button mat-button (click)="validationGouvernance(data)" [mat-dialog-close]="true">Valider</button>
+    </ng-template>
+
 </mat-dialog-actions>

@@ -9,14 +9,16 @@ export class Demande {
     public datenaissance: string;
     public adresse: string;
     public genre: string;
-    public statudemande: number;
+    public statutdemande: number;
+    public iddepartement: number;
     public justificatif: string;
     public cni: string;
     public photo: string;
     public adressprof: string;
-    public expreriencepro: string;
+    public experiencepro: string;
     public dateinscrit: string;
     public profession: number;
+    public repertoire: number;
     public email: string;
     public telephone: string;
     public selected?: boolean;

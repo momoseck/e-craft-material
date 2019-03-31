@@ -1,0 +1,36 @@
+<div>
+    <h2 mat-dialog-title>Paiement</h2>
+</div>
+<mat-dialog-content class="mat-typography">
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{data.personne.prenom}}-{{data.personne.nom}}</mat-card-title>
+            <mat-card-subtitle>né(e) le {{data.personne.datenaissance}} á {{data.personne.adresse}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>
+                Email: {{data.email}} - Telephone: {{data.telephone}}
+            </p>
+            <p>
+                Adresse professionnelle: {{data.adressprof}} - Annee d'experiance: {{data.expreriencepro}}
+            </p>
+            <p>
+                profession: {{profession?.professionName}} - Annee d'experiance: {{data.dateinscrit}}
+            </p>
+            <form [formGroup]="paiementFormGroup">
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">Montant</mat-label>
+                    <input matInput placeholder="montant" formControlName="montant" required>
+                </mat-form-field>
+            </form>
+
+        </mat-card-content>
+        <mat-card-footer>
+        </mat-card-footer>
+    </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Fermer</button>
+    <button mat-button (click)="validation(data)" [mat-dialog-close]="true">Valider</button>
+</mat-dialog-actions>

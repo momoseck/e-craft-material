@@ -25,7 +25,6 @@ export class DemandeComponent implements OnInit {
   personnFormGroup: FormGroup;
   artisanFormGroup: FormGroup;
   demande: Demande = new Demande();
-
   departement: Departement;
   professions: Professions[];
   departements: Departement[];
@@ -51,7 +50,7 @@ export class DemandeComponent implements OnInit {
     });
     // formGroup demande
     this.demande.iddemande = 1;
-    this.demande.statudemande = 0;
+    this.demande.statutdemande = 0;
     this.demandeFormGroup = this.formBuilder.group({
       departementid: ['', Validators.required],
       justificatif: ['', Validators.required],
@@ -113,10 +112,14 @@ export class DemandeComponent implements OnInit {
 
     // Data mapping
     this.departement = this.getDepartement(+demandeData.departementid.value);
+    console.log(this.departement);
     this.demande.chambremetier = this.departement.region.gouvernances[0].chambremetiers[0];
+    this.demande.iddepartement = this.departement.iddepartement;
+    const depart = new Departement();
+    depart.iddepartement = this.departement.iddepartement;
     // artisan data
-    this.demande.adressprof = artisanData.experiencepro.value;
-    this.demande.expreriencepro = artisanData.experiencepro.value;
+    this.demande.adressprof = artisanData.adressprof.value;
+    this.demande.experiencepro = artisanData.experiencepro.value;
     this.demande.profession = artisanData.professionid.value;
     this.demande.dateinscrit = '02-08-2019';
   }

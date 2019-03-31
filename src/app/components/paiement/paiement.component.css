@@ -1,0 +1,29 @@
+table {
+  width: 100%;
+}
+th{
+  color: white;
+  background-color: rgb(66, 161, 133);
+}
+.top{
+  margin-top: 20px;
+  width:50%;
+}
+.right{
+  margin-left: 20%;
+}
+
+.mat-row.hovered {
+  background: #eee;
+}
+
+.mat-row.selected {
+  background: #999;
+}
+.search{
+    height: 48px;
+}
+.btn{
+  margin: 4px;
+  border-color: rgb(66, 161, 133);
+}

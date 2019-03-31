@@ -35,7 +35,7 @@ import { EntrepriseComponent } from './components/entreprise/entreprise.componen
 import { FactureComponent } from './components/facture/facture.component';
 import { GieComponent } from './components/gie/gie.component';
 import { GouvernanceComponent } from './components/gouvernance/gouvernance.component';
-import { PaiementComponent } from './components/paiement/paiement.component';
+import { PaiementComponent, PaiementDialogComponent } from './components/paiement/paiement.component';
 import { PersonneComponent } from './components/personne/personne.component';
 import { ProfessionComponent } from './components/profession/profession.component';
 import { PublicationComponent } from './components/publication/publication.component';
@@ -58,7 +58,8 @@ const appRoutes: Routes = [
   { path: 'demandes', component: DemandeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'traitement-demande', component: TraitementDemandeComponent },
-  { path: 'comptable', component: ComptableComponentComponent }
+  { path: 'comptable', component: ComptableComponentComponent },
+  { path: 'paiements', component: PaiementComponent }
 ];
 
 @NgModule({
@@ -97,7 +98,8 @@ const appRoutes: Routes = [
     TypearticleComponent,
     LoginComponent,
     TraitementDemandeComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    PaiementDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -132,7 +134,8 @@ const appRoutes: Routes = [
     useValue: { displayDefaultIndicatorType: false }
   }],
   entryComponents: [
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent, 
+    PaiementDialogComponent
   ],
   bootstrap: [AppComponent]
   // , schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

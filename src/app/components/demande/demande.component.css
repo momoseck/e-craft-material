@@ -6,7 +6,7 @@ table {
   }
   th{
     color: white;
-    background-color: rgb(64, 175, 132);
+    background-color: rgb(66, 161, 133);
   }
   .example-container {
     height: 400px;
@@ -42,5 +42,5 @@ table {
   }
   .colo{
     color: white;
-    background-color: rgb(50, 138, 104);
+    background-color: rgb(66, 161, 133);
   }

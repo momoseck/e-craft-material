@@ -3,7 +3,7 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 210px;
 }
 
 .mat-toolbar.mat-primary {
@@ -15,4 +15,10 @@
   position: absolute;
   right: 0px;
   margin: 0;
+}
+.dashboard{
+  height: 170px;
+}
+.barnav{
+  height: 80px;
 }

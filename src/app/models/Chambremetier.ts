@@ -8,7 +8,6 @@ export class Chambremetier {
    public gouvernance: Gouvernance;
    public nomchambre: string;
    public localisation: string;
-   public paiements?: Paiement;
    public demandes?: Demande;
    public agentChambre?: Agentchambre;
 }
