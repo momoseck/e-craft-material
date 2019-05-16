@@ -9,6 +9,8 @@ import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Chambremetier } from 'src/app/models/Chambremetier';
+import { Compte } from 'src/app/models/Compte';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-paiement',
@@ -16,30 +18,94 @@ import { Chambremetier } from 'src/app/models/Chambremetier';
   styleUrls: ['./paiement.component.css']
 })
 export class PaiementComponent implements OnInit {
+  appUser: Compte = null;
   isDisabled = true;
   isOptional = false;
+  professions: string[] = [];
   artisan: Artisan;
-  displayedColumns: string[] = ['code', 'prenom', 'nom', 'adress', 'genre', 'telephone', 'profession'];
+  filterFormGroup: FormGroup;
+  displayedColumns: string[] = ['code', 'prenom', 'nom', 'adress', 'genre', 'telephone', 'profession', 'etat'];
   dataSource = new MatTableDataSource<Artisan>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private chambreService: ChambreManagerService,
+  constructor(private authservice: AuthenticationService, private chambreService: ChambreManagerService,
     // tslint:disable-next-line:align
-    private dialog: MatDialog) { }
+    private dialog: MatDialog, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.getArtisan();
-  }
+    this.appUser = this.authservice.loadUser();
 
-  getArtisan() {
+    this.dataSource.paginator = this.paginator;
+    this.filterFormGroup = this.formBuilder.group({
+      prenom: '',
+      nom: '',
+      profession: ''
+    });
     this.chambreService.getArtisan().subscribe(
       response => {
         this.dataSource.data = response;
+        console.log(this.dataSource.data);
+        for (let i = 0; i < this.dataSource.data.length; i++) {
+          this.dataSource.data[i].nom = this.dataSource.data[i].personne.nom;
+          this.dataSource.data[i].prenom = this.dataSource.data[i].personne.prenom;
+          this.dataSource.data[i].profession = this.dataSource.data[i].professions.professionName;
+          if (!this.professions.includes(this.dataSource.data[i].profession)) {
+            this.professions.push(this.dataSource.data[i].profession);
+          }
+        }
       }
     );
+    // this.dataSource.filterPredicate = (data: Artisan, filter: string) => {
+    //   return data.personne.nom === filter;
+    // };
+    // this.dataSource.filter = myValue;
+    this.dataSource.filterPredicate =
+      (data: Artisan, filtersJson: string) => {
+        if (filtersJson !== '') {
+          const matchFilter = [];
+          const filters = JSON.parse(filtersJson);
+
+          filters.forEach(filter => {
+            const val = data[filter.id] === null ? '' : data[filter.id];
+            matchFilter.push(val.toLowerCase().includes(filter.value.toLowerCase()));
+          });
+          return matchFilter.every(Boolean);
+        }
+      };
+    // this.getArtisan();
   }
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = ('' + filterValue).trim().toLowerCase();
+
+  getArtisan() {
+
+  }
+  applyFilter() {
+
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
+    const tableFilters = [];
+    if (this.filterFormGroup.controls.prenom.value !== undefined) {
+      console.log('prenom=' + this.filterFormGroup.controls.prenom.value);
+      tableFilters.push({
+        id: 'prenom',
+        value: this.filterFormGroup.controls.prenom.value
+      });
+    }
+    if (this.filterFormGroup.controls.nom.value !== undefined) {
+      console.log('nom=' + this.filterFormGroup.controls.nom.value);
+      tableFilters.push({
+        id: 'nom',
+        value: this.filterFormGroup.controls.nom.value
+      });
+    }
+    if (this.filterFormGroup.controls.profession.value !== undefined) {
+      console.log('profession=' + this.filterFormGroup.controls.profession);
+      tableFilters.push({
+        id: 'profession',
+        value: this.filterFormGroup.controls.profession.value
+      });
+    }
+    this.dataSource.filter = JSON.stringify(tableFilters);
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   isSelected(getArtisan: Artisan) {

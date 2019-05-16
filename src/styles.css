@@ -8,3 +8,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: white;
     align-content: center;
 }
+
+.roundedImage{
+    overflow:hidden;
+    -webkit-border-radius:50px;
+    -moz-border-radius:50px;
+    border-radius:50px;
+    width:200px;
+    height:200px;
+}
+.dialog-header{
+    width:100%;
+    background-color: rgb(66, 161, 133);
+ }
+.test{
+}
+
+.warning{
+    color: rgb(255, 166, 0);
+}
+.danger{
+    color: red;
+}

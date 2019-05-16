@@ -4,17 +4,22 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import {JwtModule} from '@auth0/angular-jwt';
 import {
   MatToolbarModule, MatButtonModule, MatSidenavModule,
   MatIconModule, MatListModule, MatGridListModule, MatCardModule,
   MatMenuModule, MatTableModule, MatPaginatorModule, MatSortModule,
-  MatTabsModule, MatInputModule, MatStepperModule, MatStepperIntl, MatStepLabel, MatIcon, MatSelectModule, MatButtonToggle, MatButtonToggleModule, MatDialogModule
+  MatTabsModule, MatInputModule, MatStepperModule, MatStepperIntl,
+  MatStepLabel, MatIcon, MatSelectModule, MatButtonToggle,
+  MatButtonToggleModule, MatDialogModule, MatExpansionModule,
+   MatDatepicker, MatDatepickerModule, MatNativeDateModule, MatBadgeModule, MatChipsModule
 } from '@angular/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MainDashboardComponent } from './components/main-dashboard/main-dashboard.component';
 import { HomeComponentComponent } from './components/home-component/home-component.component';
 import { ChambreComponentComponent } from './components/chambre-component/chambre-component.component';
-import { AdminComponentComponent } from './components/admin-component/admin-component.component';
+import { AdminComponentComponent, CompteDialogComponent,
+   ChambreDialogComponent } from './components/admin-component/admin-component.component';
 import { ComptableComponentComponent } from './components/comptable-component/comptable-component.component';
 import { NgModule } from '@angular/core';
 import { MainTableComponent } from './components/main-table/main-table.component';
@@ -49,6 +54,9 @@ import { LoginComponent } from './components/login/login.component';
 import { TraitementDemandeComponent, ConfirmationDialogComponent } from './components/traitement-demande/traitement-demande.component';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ReportingComponent } from './components/reporting/reporting.component';
+import { CdkTableModule } from '@angular/cdk/table';
+import { ChartsModule } from 'ng2-charts';
 const appRoutes: Routes = [
   { path: '', component: HomeComponentComponent },
   { path: 'departements', component: DepartementComponent },
@@ -56,9 +64,9 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdminComponentComponent },
   { path: 'artisans', component: ArtisanComponent },
   { path: 'demandes', component: DemandeComponent },
-  { path: 'login', component: LoginComponent },
   { path: 'traitement-demande', component: TraitementDemandeComponent },
   { path: 'comptable', component: ComptableComponentComponent },
+  { path: 'decideurs', component: ReportingComponent },
   { path: 'paiements', component: PaiementComponent }
 ];
 
@@ -99,10 +107,14 @@ const appRoutes: Routes = [
     LoginComponent,
     TraitementDemandeComponent,
     ConfirmationDialogComponent,
-    PaiementDialogComponent
+    PaiementDialogComponent,
+    ReportingComponent,
+    CompteDialogComponent,
+    ChambreDialogComponent
   ],
   imports: [
     BrowserModule,
+    CdkTableModule,
     BrowserAnimationsModule,
     LayoutModule,
     MatToolbarModule,
@@ -127,15 +139,22 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatButtonToggleModule,
     CommonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ChartsModule,
+    MatChipsModule,
   ],
   providers: [HttpClient, {
     provide: STEPPER_GLOBAL_OPTIONS,
     useValue: { displayDefaultIndicatorType: false }
   }],
   entryComponents: [
-    ConfirmationDialogComponent, 
-    PaiementDialogComponent
+    ConfirmationDialogComponent,
+    PaiementDialogComponent,
+    CompteDialogComponent,
+    ChambreDialogComponent
   ],
   bootstrap: [AppComponent]
   // , schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

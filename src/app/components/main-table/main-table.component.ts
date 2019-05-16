@@ -14,16 +14,15 @@ export class MainTableComponent implements OnInit {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name'];
-  constructor(private adminManagerService:AdminManagerService){
+  constructor(private adminManagerService: AdminManagerService) {
 
   }
 
   ngOnInit() {
         this.adminManagerService.getRegions().subscribe(
-          data =>{
-            this.dataSource = new MainTableDataSource(this.paginator, this.sort,data);
+          data => {
+            this.dataSource = new MainTableDataSource(this.paginator, this.sort, data);
           }
         );
     }
-  
 }

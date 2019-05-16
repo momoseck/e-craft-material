@@ -11,6 +11,7 @@ export class Compte {
     public password: string;
     public datecration: string;
     public actif: boolean;
+    public nomStructure: string;
     public agentchambre?: Agentchambre;
     public agentgouvernance?: Agentgouvernance;
 }

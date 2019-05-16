@@ -44,3 +44,9 @@ table {
     color: white;
     background-color: rgb(66, 161, 133);
   }
+
+  .select{
+    color: white;
+    height: 43px;
+    background-color: rgb(66, 161, 133);
+  }

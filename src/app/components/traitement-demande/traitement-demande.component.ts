@@ -12,6 +12,10 @@ import { Personne } from 'src/app/models/Personne';
 import { Artisan } from 'src/app/models/Artisan';
 import { Repertoire } from 'src/app/models/Repertoire';
 import { Departement } from 'src/app/models/Departement';
+import { Compte } from 'src/app/models/Compte';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { ViewChildren } from '@angular/core';
+import { QueryList } from '@angular/core';
 
 @Component({
   selector: 'app-traitement-demande',
@@ -19,60 +23,117 @@ import { Departement } from 'src/app/models/Departement';
   styleUrls: ['./traitement-demande.component.css']
 })
 export class TraitementDemandeComponent implements OnInit, OnChanges {
-
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   // tslint:disable-next-line:ban-types
   show: String = 'a';
   isOptional = false;
+  appUser: Compte = null;
   isDisabled = true;
   displayedColumns: string[] = ['idDemande', 'prenom', 'nom', 'adress', 'genre', 'CNI', 'statut'];
   dataSourceDemande = new MatTableDataSource<Demande>();
   dataSourceChambre = new MatTableDataSource<Demande>();
   dataSourceGouvernance = new MatTableDataSource<Demande>();
   demande: Demande;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private chambreService: ChambreManagerService, private dialog: MatDialog) { }
+
+
+  constructor(private authservice: AuthenticationService, private chambreService: ChambreManagerService, private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.initDemandes();
+    const page1 = this.paginator.toArray();
+    console.log(' icici' + this.paginator);
+    this.authservice.load().subscribe(
+      response => {
+        this.appUser = response;
+        const datas = [];
+        if (this.appUser.agentchambre != null) {
+          const copyChambre = [];
+          const copyGouv = [];
+          const copyDemande = [];
+          const demandeCopy = this.appUser.agentchambre.chambremetier.demandes;
+          for (let i = 0; i < demandeCopy.length; i++) {
+            if (demandeCopy[i].statutdemande === 0) {
+              copyDemande.push(demandeCopy[i]);
+            } else if (demandeCopy[i].statutdemande === 1) {
+              copyChambre.push(demandeCopy[i]);
+            } else if (demandeCopy[i].statutdemande === 2) {
+              copyGouv.push(demandeCopy[i]);
+            }
+
+          }
+          this.dataSourceDemande.data = copyDemande;
+          this.dataSourceDemande.paginator = page1[0];
+
+          this.dataSourceChambre.data = copyChambre;
+          this.dataSourceChambre.paginator = page1[1];
+
+          this.dataSourceGouvernance.data = copyGouv;
+          this.dataSourceGouvernance.paginator = page1[2];
+          console.log(' icici' + this.paginator.toArray());
+        } else if (this.appUser.agentgouvernance != null) {
+          const copyChambre = [];
+          const copyGouv = [];
+          const copyDemande = [];
+          const demandeCopy = this.appUser.agentgouvernance.gouvernance.chambremetiers[0].demandes;
+          for (let i = 0; i < demandeCopy.length; i++) {
+            if (demandeCopy[i].statutdemande === 0) {
+              copyDemande.push(demandeCopy[i]);
+            } else if (demandeCopy[i].statutdemande === 1) {
+              copyChambre.push(demandeCopy[i]);
+            } else if (demandeCopy[i].statutdemande === 2) {
+              copyGouv.push(demandeCopy[i]);
+            }
+
+          }
+          this.dataSourceDemande.data = copyDemande;
+          this.dataSourceDemande.paginator = this.paginator.toArray()[0];
+
+          this.dataSourceChambre.data = copyChambre;
+          this.dataSourceChambre.paginator = this.paginator.toArray()[1];
+
+          this.dataSourceGouvernance.data = copyGouv;
+          this.dataSourceGouvernance.paginator = this.paginator.toArray()[2];
+
+        } else {
+          // this.getDemandes();
+          this.chambreService.getDemande().subscribe(
+            datademande => {
+              this.dataSourceDemande.data = datademande;
+              this.dataSourceDemande.paginator = this.paginator.toArray()[0];
+              console.log(this.dataSourceDemande);
+            }
+          );
+
+          this.chambreService.getDemandeCh().subscribe(
+            datademande => {
+              this.dataSourceChambre.data = datademande;
+              this.dataSourceChambre.paginator = this.paginator.toArray()[1];
+            }
+          );
+          this.chambreService.getDemandeGov().subscribe(
+            datademande => {
+              this.dataSourceGouvernance.data = datademande;
+              this.dataSourceGouvernance.paginator = this.paginator.toArray()[2];
+            }
+          );
+        }
+        console.log(this.appUser);
+      }, err => {
+
+      }
+    );
   }
   show1() {
     this.show = 'a';
+    this.ngOnInit();
   }
   show2() {
     this.show = 'b';
+    this.ngOnInit();
   }
   show3() {
     this.show = 'c';
-  }
-  getDemandes() {
-    this.dataSourceDemande.paginator = this.paginator;
-    this.chambreService.getDemande().subscribe(
-      datademande => {
-        this.dataSourceDemande.data = datademande;
-      }
-    );
-  }
-  getDemandeCh() {
-    this.dataSourceDemande.paginator = this.paginator;
-    this.chambreService.getDemandeCh().subscribe(
-      datademande => {
-        this.dataSourceChambre.data = datademande;
-      }
-    );
-  }
-  getDemandeGov() {
-    this.dataSourceDemande.paginator = this.paginator;
-    this.chambreService.getDemandeGov().subscribe(
-      datademande => {
-        this.dataSourceGouvernance.data = datademande;
-      }
-    );
-  }
-  initDemandes() {
-    this.getDemandes();
-    this.getDemandeCh();
-    this.getDemandeGov();
-    console.log('inittttt---');
+    this.dataSourceGouvernance.paginator = this.paginator.toArray()[2];
+    this.ngOnInit();
   }
   isSelected(getdemande: Demande) {
 
@@ -86,24 +147,26 @@ export class TraitementDemandeComponent implements OnInit, OnChanges {
       getdemande.selected = !getdemande.selected;
       this.isDisabled = false;
       this.demande = getdemande;
+      this.chambreService.getOneDemande(this.demande.iddemande).subscribe(
+        response => {
+          this.demande.chambremetier = response.chambremetier;
+        }
+      );
       console.log('id demande 2222' + this.demande.adresse);
     }
-
-
   }
   openDialog() {
     this.isDisabled = true;
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      height: '400px',
-      width: '600px',
+      height: '500px',
+      width: '800px',
       data: this.demande
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.initDemandes();
+
     });
   }
   private refreshTable() {
-    this.getDemandes();
   }
   ngOnChanges(changes): void {
     console.log('change ' + this.dataSourceDemande.data);
@@ -115,19 +178,21 @@ export class TraitementDemandeComponent implements OnInit, OnChanges {
   templateUrl: 'view-dialog.html',
 })
 export class ConfirmationDialogComponent {
+  appUser: Compte = null;
   profession: Professions;
   personne: Personne = new Personne();
   artisan: Artisan = new Artisan();
   repertoire: Repertoire = new Repertoire();
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Demande,
+    @Inject(MAT_DIALOG_DATA) public data: Demande, private authservice: AuthenticationService,
     private adminService: AdminManagerService, private chambreService: ChambreManagerService) {
     this.adminService.getProfession(data.profession).subscribe(
       prof => {
         this.profession = prof;
       }
     );
+
   }
 
   validationChambre(): void {

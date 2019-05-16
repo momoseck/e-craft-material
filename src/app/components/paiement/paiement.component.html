@@ -1,16 +1,28 @@
 <div>
-
-  <mat-form-field class="top right" appearance="outline">
-    <mat-label class="mat-label">Recherche</mat-label>
-    <input matInput autocomplete="off" matInput (keyup)="applyFilter($event.target.value)" placeholder="Recherche">
-    <mat-icon matSuffix class="colo">search</mat-icon>
-  </mat-form-field>
-  
+  <form [formGroup]="filterFormGroup">
+    <mat-form-field class="top right" appearance="outline">
+      <mat-label class="mat-label">Recherche par Prenom</mat-label>
+      <input matInput autocomplete="off" formControlName="prenom" matInput (keyup)="applyFilter()" placeholder="Recherche par prenom">
+      <mat-icon matSuffix class="colo">search</mat-icon>
+    </mat-form-field>
+    <mat-form-field class="top right" appearance="outline">
+      <mat-label class="mat-label">Recherche par Nom</mat-label>
+      <input matInput autocomplete="off" matInput formControlName="nom" (keyup)="applyFilter()" placeholder="Recherche par nom">
+      <mat-icon matSuffix class="colo">search</mat-icon>
+    </mat-form-field>
+    <mat-form-field class="top right" appearance="outline">
+      <mat-label class="mat-label">profession</mat-label>
+      <mat-select formControlName="profession" (selectionChange)="applyFilter()">
+        <mat-option placeholder="profession"></mat-option>
+        <mat-option *ngFor="let p of professions" [value]="p">{{p}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
 </div>
-<div class=" example-container mat-elevation-z8">
-    <button mat-stroked-button (click)="openDialog()" class="btn" color="primary" [disabled]="isDisabled">enregistrer Paiement</button>
+<div class="right1 example-container mat-elevation-z8">
+  <button mat-stroked-button (click)="openDialog()" class="btn" color="primary" [disabled]="isDisabled">enregistrer Paiement</button>
   <table mat-table [dataSource]="dataSource">
-    
+
     <!-- genre Column -->
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef> code artisan </th>
@@ -20,12 +32,12 @@
     <!-- prenom Column -->
     <ng-container matColumnDef="prenom">
       <th mat-header-cell *matHeaderCellDef> Prenom </th>
-      <td mat-cell *matCellDef="let element"> {{element.personne.prenom}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
     </ng-container>
     <!-- Name Column -->
     <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef> Nom </th>
-      <td mat-cell *matCellDef="let element"> {{element.personne.nom}}</td>
+      <td mat-cell *matCellDef="let element"> {{element.nom}}</td>
     </ng-container>
     <!-- adresse Column -->
     <ng-container matColumnDef="adress">
@@ -48,11 +60,20 @@
       <th mat-header-cell *matHeaderCellDef> Profession </th>
       <td mat-cell *matCellDef="let element"> {{element.professions.professionName}} </td>
     </ng-container>
+    <ng-container matColumnDef="etat">
+      <th mat-header-cell *matHeaderCellDef> Etat </th>
+      <td mat-cell *matCellDef="let row">
+        <div *ngIf="row.paiements.length !==0 ;else non">
+          <mat-chip color="primary" selected>payé</mat-chip>
+        </div>
+        <ng-template #non>
+          <mat-chip color="warn" selected>non payé</mat-chip>
+        </ng-template>
+      </td>
+    </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
-    [ngClass]="{hovered: row.hovered, selected: row.selected}"
-     (click)="isSelected(row)"
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{hovered: row.hovered, selected: row.selected}" (click)="isSelected(row)"
       (mouseover)="row.hovered = true" (mouseout)="row.hovered = false">
   </table>
 

@@ -1,41 +1,73 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="!(isHandset$ | async)">
-    <mat-toolbar class="dashboard" color="primary">E-CRAFT-SENEGAL 
-     
+
+<mat-sidenav-container *ngIf="hasToken" class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+    <mat-toolbar class="dashboard" color="primary">
+      <img class="roundedLogo" src="assets/images/e-craft5.png">
     </mat-toolbar>
     <mat-nav-list>
-        <a mat-list-item routerLink="/">Home</a>
-      <a mat-list-item routerLink="/admin">Administration</a>
-      <a mat-list-item routerLink="/comptable">comptabilite</a>
-      <a mat-list-item routerLink="/chambre">chambre des metier</a>
-      <a mat-list-item routerLink="/paiements">Paiements</a>
-      <a mat-list-item routerLink="/departements">departements</a>
-      <a mat-list-item routerLink="/artisans">Artisan</a>
-      <a mat-list-item routerLink="/demandes">demandes</a>
-      <a mat-list-item routerLink="/traitement-demande">traitement</a>
+      <a mat-list-item routerLink="/">
+        <mat-icon class="color">home</mat-icon>&nbsp;&nbsp;Home</a>
+      <a mat-list-item routerLink="/admin">
+        <mat-icon class="color">settings</mat-icon>&nbsp;&nbsp;Administration</a>
+      <!-- <a mat-list-item routerLink="/comptable">comptabilite</a> -->
+      <!-- <a mat-list-item routerLink="/chambre">chambre des metier</a> -->
+      <a mat-list-item routerLink="/paiements">
+        <mat-icon class="color">receipt</mat-icon>&nbsp;&nbsp;Paiements</a>
+      <!-- <a mat-list-item routerLink="/departements">departements</a> -->
+      <a mat-list-item routerLink="/artisans">
+        <mat-icon class="color">group</mat-icon>&nbsp;&nbsp;Artisan</a>
+      <a mat-list-item routerLink="/demandes">
+        <mat-icon class="color">folder</mat-icon>&nbsp;&nbsp;demandes</a>
+      <a mat-list-item routerLink="/decideurs">
+        <mat-icon class="color">filter</mat-icon>&nbsp;&nbsp;Decideurs</a>
+      <a mat-list-item routerLink="/traitement-demande">
+        <mat-icon class="color">group</mat-icon>&nbsp;&nbsp;traitement</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar class="barnav" color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>e-craft-material</span>
-     <div class="right">
-       <button mat-button>Settings</button>
-       <button mat-button>Help</button>
-     </div>
-     
+      <span>E-Craft-SENEGAL</span>
+      <div class="right">
+        <button mat-button>
+          <mat-icon>person</mat-icon>&nbsp;{{nomStructure}}</button>
+        <button (click)="logOut()" mat-button>
+          <mat-icon>lock</mat-icon>&nbsp;Déconnexion</button>
+      </div>
+
     </mat-toolbar>
     <!-- Add Content Here -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
+<body>
+<div  *ngIf="!hasToken">
+  
+    
+  
+<div *ngIf="!hasToken" class="host">
+  <mat-card>
+    <mat-card-title>
+      <img class="roundedLogoq" src="assets/images/craft_logo.png">
+    </mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="loginFormGroup">
+        <mat-form-field>
+          <input matInput placeholder="Username" formControlName="username">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Password" formControlName="password" autocomplete="password" type="password">
+        </mat-form-field>
+        <div class="button">
+          <button mat-raised-button (click)="login()" color="primary">Login</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <!-- <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
+</div>
+</div>
+</body>

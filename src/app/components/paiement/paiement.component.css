@@ -7,10 +7,13 @@ th{
 }
 .top{
   margin-top: 20px;
-  width:50%;
+  width:30%;
 }
 .right{
-  margin-left: 20%;
+  margin-left: 2.55%;
+}
+.right1{
+  margin: 0.88%;
 }
 
 .mat-row.hovered {

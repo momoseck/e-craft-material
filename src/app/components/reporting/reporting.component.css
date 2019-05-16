@@ -1,0 +1,24 @@
+table {
+    width: 100%;
+  }
+  th{
+    color: white;
+    background-color: rgb(66, 161, 133);
+  }
+  .top{
+    margin-top: 30px;
+    width:18%;
+  }
+ 
+  .mat-form-field{
+    font-size: 12px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  .mat-label{
+    font-size: 15px;
+  }
+  .right1{
+    margin: 0.88%;
+  }

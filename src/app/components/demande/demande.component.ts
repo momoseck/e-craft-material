@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { Location } from '@angular/common';
 import { Demande } from 'src/app/models/Demande';
 import { ChambreManagerService } from 'src/app/services/chambre-manager.service';
 import { FormGroup } from '@angular/forms';
@@ -14,6 +15,9 @@ import { Repertoire } from 'src/app/models/Repertoire';
 import { Region } from 'src/app/models/Region';
 import { Departement } from 'src/app/models/Departement';
 import { DatePipe } from '@angular/common';
+import { Compte } from 'src/app/models/Compte';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Chambremetier } from 'src/app/models/Chambremetier';
 
 @Component({
   selector: 'app-demande',
@@ -21,23 +25,52 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./demande.component.css']
 })
 export class DemandeComponent implements OnInit {
+  appUser: Compte = null;
   demandeFormGroup: FormGroup;
   personnFormGroup: FormGroup;
   artisanFormGroup: FormGroup;
   demande: Demande = new Demande();
+  demandes: Demande[] = [];
   departement: Departement;
   professions: Professions[];
   departements: Departement[];
+  chambreFocus: Chambremetier = new Chambremetier();
+  justificatif: any = File;
+  photo: any = File;
   isOptional = false;
-  displayedColumns: string[] = ['idDemande', 'prenom', 'nom', 'adress', 'genre', 'CNI', 'statut'];
+  displayedColumns: string[] = ['idDemande', 'prenom', 'nom', 'date', 'adress', 'genre', 'CNI', 'statut'];
   dataSource = new MatTableDataSource<Demande>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private chambreService: ChambreManagerService, private formBuilder: FormBuilder,
+  constructor(private location: Location,
+    private authservice: AuthenticationService, private chambreService: ChambreManagerService, private formBuilder: FormBuilder,
     // tslint:disable-next-line:align
     private adminservice: AdminManagerService) { }
 
   ngOnInit() {
-    this.getDemandes();
+    this.dataSource.paginator = this.paginator;
+    console.log(this.dataSource.paginator);
+    this.authservice.load().subscribe(
+      response => {
+        this.appUser = response;
+        const datas = [];
+        if (this.appUser.agentchambre != null) {
+
+           this.dataSource.data = this.appUser.agentchambre.chambremetier.demandes;
+           console.log(this.dataSource.data);
+        } else if (this.appUser.agentgouvernance != null) {
+           this.dataSource.data = this.appUser.agentgouvernance.gouvernance.chambremetiers[0].demandes;
+           console.log(this.dataSource.data);
+
+        } else {
+          this.getDemandes();
+
+        }       
+        console.log(this.appUser);
+      }, err => {
+
+      }
+    );
+
     // formGroup personn
     this.personnFormGroup = this.formBuilder.group({
       nom: ['', Validators.required],
@@ -53,9 +86,7 @@ export class DemandeComponent implements OnInit {
     this.demande.statutdemande = 0;
     this.demandeFormGroup = this.formBuilder.group({
       departementid: ['', Validators.required],
-      justificatif: ['', Validators.required],
-      cni: ['', Validators.required],
-      photo: ['', Validators.required]
+      cni: ['', Validators.required]
     });
     // formGroup artisan
 
@@ -80,16 +111,26 @@ export class DemandeComponent implements OnInit {
     );
 
   }
+
+  test() {
+    console.log(this.personnFormGroup.controls.datenaissance.value);
+    // tslint:disable-next-line:ban-types
+    const dateNaiss: String = this.personnFormGroup.controls.datenaissance.value.toString().split(' ');
+    this.demande.datenaissance = dateNaiss[2] + '/' + dateNaiss[1] + '/' + dateNaiss[3];
+    console.log(this.demande.datenaissance);
+  }
+
   get dem() {
     console.log('get get get ====>');
     return this.getDemandes();
   }
 
   getDemandes() {
-    this.dataSource.paginator = this.paginator;
+    
     this.chambreService.getDemande().subscribe(
       datademande => {
         this.dataSource.data = datademande;
+        console.log(this.dataSource.data);
       }
     );
   }
@@ -100,16 +141,16 @@ export class DemandeComponent implements OnInit {
     // persone data
     this.demande.nom = personnData.nom.value;
     this.demande.prenom = personnData.prenom.value;
-    this.demande.datenaissance = personnData.datenaissance.value;
+    // tslint:disable-next-line:ban-types
+    const dateNaiss: String = this.personnFormGroup.controls.datenaissance.value.toString().split(' ');
+    this.demande.datenaissance = dateNaiss[2] + '/' + dateNaiss[1] + '/' + dateNaiss[3];
+    // this.demande.datenaissance = personnData.datenaissance.value;
     this.demande.adresse = personnData.adresse.value;
     this.demande.genre = personnData.genre.value;
     this.demande.email = personnData.email.value;
     this.demande.telephone = personnData.telephone.value;
     // demande data
-    this.demande.justificatif = demandeData.justificatif.value;
     this.demande.cni = demandeData.cni.value;
-    this.demande.photo = demandeData.photo.value;
-
     // Data mapping
     this.departement = this.getDepartement(+demandeData.departementid.value);
     console.log(this.departement);
@@ -134,18 +175,38 @@ export class DemandeComponent implements OnInit {
     }
     return null;
   }
+
+  onSelectFileOne(event) {
+    const file = event.target.files[0];
+    this.justificatif = file;
+  }
+
+  onSelectFileTwo(event) {
+    const file = event.target.files[0];
+    this.photo = file;
+  }
   postDemande() {
     this.dataGroup();
-    this.chambreService.postDemande(this.demande).subscribe(
+    const formData = new FormData();
+    formData.append('demande', JSON.stringify(this.demande));
+    formData.append('justificatif', this.justificatif);
+    formData.append('photo', this.photo);
+
+    console.log(formData.get('demande'));
+    this.chambreService.postDemande(formData).subscribe(
       rep => {
         console.log(rep);
-        this.getDemandes();
+        this.dataSource.data.push(rep);
+        this.dataSource._updateChangeSubscription();
+        ;
       }, err => {
         console.log(err);
       }
     );
 
-    // this.dataSource.data.pop(this.demande);
+    // t his.dataSource.data.pop(this.demande);
   }
+
+   
 
 }

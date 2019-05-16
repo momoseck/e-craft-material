@@ -1,5 +1,5 @@
 .grid-container {
-  margin: 20px;
+  margin: 10px;
 }
 
 .dashboard-card {
@@ -8,8 +8,31 @@
   left: 15px;
   right: 15px;
   bottom: 15px;
+  min-height: 400px;
 }
+.dashboard-grid {
+  
+ 
 
+}
+.chart-block{
+  width: 98%;
+  height: 98%;
+  border: 2px solid rgb(66, 161, 133);
+  border-radius: 5px;
+}
+.chart{
+  margin: auto;
+  width: 80%;
+  border: 2px solid rgb(168, 236, 216);
+   
+}
+.chartP{
+  padding-top: 20%;
+  margin: auto;
+  width: 100%;
+   
+}
 .more-button {
   position: absolute;
   top: 5px;
@@ -17,5 +40,5 @@
 }
 
 .dashboard-card-content {
-  text-align: center;
+ 
 }

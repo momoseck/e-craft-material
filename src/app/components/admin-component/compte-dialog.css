@@ -1,12 +1,4 @@
-::ng-deep .mat-tab-body-wrapper {
-    height: 75vh; 
-    
-}
-table {
-    width: 100%;
-  }
-
-  .colo{
+.colo{
     color: white;
     background-color: rgb(66, 161, 133);
   }
@@ -14,11 +6,8 @@ table {
     color: rgb(14, 11, 11);
     background-color: rgb(215, 241, 121);
   }
-  .mat-label{
-    font-size: 15px;
-  }
+  
   .mat-form-field{
-    font-size: 12px;
     margin-left: 10px;
     margin-right: 10px;
   }
@@ -36,4 +25,8 @@ table {
   
   .mat-row.selected {
     background: #999;
+  }
+
+  .bat{
+    margin-left:40%; 
   }

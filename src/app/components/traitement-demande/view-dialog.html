@@ -1,10 +1,13 @@
 <div>
     <h2 mat-dialog-title>Traitement demande</h2>
 </div>
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content class="test">
 
-    <mat-card>
+    <mat-card style="max-width: 800px;">
         <mat-card-header>
+            <div mat-card-avatar class="roundedImage">
+                <img mat-card-lg-image [src]="data.photo">
+            </div>
             <mat-card-title>{{data.prenom}}-{{data.nom}}</mat-card-title>
             <mat-card-subtitle>né(e) le {{data.datenaissance}} á {{data.adresse}}</mat-card-subtitle>
         </mat-card-header>
@@ -18,8 +21,32 @@
             profession: {{profession?.professionName}} - Annee d'experiance: {{data.dateinscrit}}
         </p>
         <p>
-            CNI: {{data.cni}} - justificatif: {{data.justificatif}}
+            CNI: {{data.cni}}
         </p>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Justificatif
+                </mat-panel-title>
+                <mat-panel-description>
+                    voir le detail du justificatif
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <img mat-card-image [src]="data.justificatif" alt="Photo of a Shiba Inu">
+        </mat-expansion-panel>
+
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    photo
+                </mat-panel-title>
+                <mat-panel-description>
+                    voir photo
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <img mat-card-image [src]="data.photo" alt="Photo">
+        </mat-expansion-panel>
         <mat-card-content>
         </mat-card-content>
         <mat-card-footer>
@@ -27,13 +54,13 @@
     </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Fermer</button>
+    <button mat-stroked-button mat-dialog-close color="warn">Fermer</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <p *ngIf="data.statutdemande == 0; then chambre else gouvernance"></p>
     <ng-template #chambre>
-        <button mat-button (click)="validationChambre(data)" [mat-dialog-close]="true">Valider</button>
+        <button class="test" mat-stroked-button color="primary" (click)="validationChambre(data)" [mat-dialog-close]="true">Valider</button>
     </ng-template>
     <ng-template #gouvernance>
-        <button mat-button (click)="validationGouvernance(data)" [mat-dialog-close]="true">Valider</button>
+        <button mat-stroked-button color="primary" (click)="validationGouvernance(data)" [mat-dialog-close]="true">Valider</button>
     </ng-template>
 
 </mat-dialog-actions>

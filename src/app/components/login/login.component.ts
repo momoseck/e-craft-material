@@ -4,6 +4,8 @@ import { User } from 'src/app/models/User';
 import { FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
+import { Compte } from 'src/app/models/Compte';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +14,8 @@ import { FormBuilder } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   loginFormGroup: FormGroup;
-  user: User = new User();
-  constructor(private authenticationservice: AuthenticationService, private formBuilder: FormBuilder) { }
+  user: Compte = new Compte();
+  constructor(private authenticationservice: AuthenticationService,private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.loginFormGroup = this.formBuilder.group({
@@ -22,7 +24,7 @@ export class LoginComponent implements OnInit {
     });
   }
   get datas() {
-    console.log('1111');
+    
     return this.loginFormGroup.controls;
   }
   login(): void {
@@ -32,7 +34,8 @@ export class LoginComponent implements OnInit {
       response => {
         const jwt = response.headers.get('Authorization');
         this.authenticationservice.saveToken(jwt);
-        console.log(this.authenticationservice.getToken());
+         
+        this.router.navigate(['']);
       }
     );
   }

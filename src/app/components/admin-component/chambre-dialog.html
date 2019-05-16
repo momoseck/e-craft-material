@@ -1,0 +1,72 @@
+<h2 mat-dialog-title>Gestion des chambres de metier</h2>
+<mat-dialog-content class="mat-typography">
+    <mat-horizontal-stepper linear #stepper>
+        <mat-step [stepControl]="gouvernanceFormGroup">
+            <form [formGroup]="gouvernanceFormGroup">
+                <ng-template matStepLabel>Gouvernance Info</ng-template>
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">gouvernance</mat-label>
+                    <input matInput placeholder="nom gouvernance" formControlName="gouvernance" required>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">region</mat-label>
+                    <mat-select formControlName="region" required>
+                        <mat-option *ngFor="let r of regions" [value]="r">{{r.nomregion}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">username</mat-label>
+                    <input matInput placeholder="username" formControlName="username" required>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">password</mat-label>
+                    <input type="password" matInput placeholder="password" formControlName="password" required>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">password finfirm</mat-label>
+                    <input type="password" matInput placeholder="confirm password" formControlName="passwordconf" required>
+                </mat-form-field>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <button mat-raised-button class="colo end1" matStepperNext>Suivant&nbsp;&nbsp;
+                    <mat-icon class="colo">send</mat-icon>
+                </button>
+
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="chambreFormGroup" [optional]="isOptional">
+            <form [formGroup]="chambreFormGroup">
+                <ng-template matStepLabel>Chambre de metier info</ng-template>
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">chambre</mat-label>
+                    <input matInput placeholder="nom chambre" formControlName="chambre" required>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">username</mat-label>
+                    <input matInput placeholder="username" formControlName="username" required>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">password</mat-label>
+                    <input type="password" matInput placeholder="password" formControlName="password" required>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label class="mat-label">password connfirm</mat-label>
+                    <input type="password" matInput placeholder="confrim password" formControlName="passwordconf" required>
+                </mat-form-field>
+                <div>
+                    <button class=" warning" mat-raised-button matStepperPrevious>
+                        <mat-icon class="warning ">undo</mat-icon>&nbsp;&nbsp;precedant</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="colo end" (click)="postChambre()" mat-raised-button mat-dialog-close>Suivant&nbsp;&nbsp;
+                        <mat-icon class="colo">send</mat-icon>
+                    </button>
+                </div>
+            </form>
+        </mat-step>
+
+    </mat-horizontal-stepper>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button style="color:red;" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-dialog-actions>

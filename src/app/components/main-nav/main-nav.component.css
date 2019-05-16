@@ -22,3 +22,50 @@
 .barnav{
   height: 80px;
 }
+.color{
+  color: rgb(66, 161, 133);
+}
+
+.roundedLogo{
+  -webkit-border-radius:70px;
+  -moz-border-radius:70px;
+  border-radius:70px;
+  width:150px;
+  height:150px;
+}
+.host {
+  display: flex;
+  justify-content: center;
+ 
+}
+
+.mat-form-field {
+  width: 100%;
+  font-size: 20px;
+  min-width: 250px;
+}
+
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+ 
+}
+mat-card{
+  border-style: outset;
+}
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+body{
+  background-color:rgb(77, 192, 148);
+}
